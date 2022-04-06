@@ -1,0 +1,35 @@
+{% extends "base.html"%}
+
+{% block titile %}
+    {{content.title}}
+{% endblock %}
+{% block style %}
+{% include "inc-style.html" %}
+{% endblock %}
+{% block menu %}
+	{% include "inc-menu.html" %}
+{% endblock %}
+{% block body %}
+<div class="content">
+    <div class="container">
+        <div class="feedback-content">
+            <div class="form-block">
+                <form class="form" action="#" method="post">
+                    <h4 class="heading_mini head_form_text">ФОРМА ОБРАТНОЙ СВЯЗИ</h4>
+                    Имя Отчество <input class="input" name="name" type="text" placeholder="Гадя Петровна">
+                    Email <input class="input" type="email" name="email" placeholder="mail@mail.com">
+                    Сообщение
+                    <textarea class="input message" name="message" placeholder="Введите сообщение"></textarea>
+                    <button class="button" type="submit">отправить сообщение</button>
+                </form>
+            </div>
+            <div class="image_block">
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+	{% include "inc-footer.html" %}
+{% endblock %}
