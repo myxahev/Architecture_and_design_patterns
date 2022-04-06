@@ -1,14 +1,35 @@
-﻿{% extends "base.html" %}
-{% block title %}
-О нас
+﻿{% extends "base.html"%}
+
+{% block titile %}
+    {{content.title}}
 {% endblock %}
 {% block style %}
-	{% include "include/inc-style.html" %}
+{% include "inc-style.html" %}
 {% endblock %}
 {% block menu %}
-	{% include "include/inc-menu.html" %}
+	{% include "inc-menu.html" %}
 {% endblock %}
 {% block body %}
-	Тут что-то будет
-{% endblock %}
+<div class="content">
+    <div class="container">
+        <div class="about-content">
+            <div class="text_block">
+                <div class="title">
+                    Обо мне...
+                </div>
+                <div class="divider"></div>
+                <div class="info">
 
+                </div>
+                <div class="divider"></div>
+                <div class="button">
+                    <a href="#">Перейти к занятиям</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+	{% include "inc-footer.html" %}
+{% endblock %}

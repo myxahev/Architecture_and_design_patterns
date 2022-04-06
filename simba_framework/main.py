@@ -1,8 +1,6 @@
 from quopri import decodestring
-from .requests import GetRequests, PostRequests
-import codecs
-import datetime
-import json
+from simba_framework.framework_requests import PostRequests, GetRequests
+
 
 class PageNotFound404:
     def __call__(self, request):
@@ -10,18 +8,16 @@ class PageNotFound404:
 
 
 class Framework:
+    """Класс Framework - основа WSGI-фреймворка"""
 
-    """Класс Framework - основа фреймворка"""
-
-    def __init__(self, routes_obj, fronts_obj):
+    def __init__(self, routes_obj):
         self.routes_lst = routes_obj
-        self.fronts_lst = fronts_obj
 
     def __call__(self, environ, start_response):
-        # получаем адрес, по которому выполнен переход
+        # Получаем адрес, по которому пользователь выполнил переход
         path = environ['PATH_INFO']
 
-        # добавление закрывающего слеша
+        # Добавляем закрывающий слеш
         if not path.endswith('/'):
             path = f'{path}/'
 
@@ -32,54 +28,33 @@ class Framework:
 
         if method == 'POST':
             data = PostRequests().get_request_params(environ)
-            request['data'] = Framework.decode_value(data)
-            print(f'Нам пришёл post-запрос: {Framework.decode_value(data)}')
-            Framework.get_message(request['data'])
-            Framework.get_message_json(request['data'])
+            request['data'] = data
+            print(f'Нам пришел post-запрос: {Framework.decode_value(data)}')
         if method == 'GET':
-            request_params = GetRequests().get_request_params(environ)
-            request['request_params'] = Framework.decode_value(request_params)
-            print(f'Нам пришли GET-параметры:'
-                  f' {Framework.decode_value(request_params)}')
+            request_params = GetRequests().get_request_param(environ)
+            request['request_params'] = request_params
+            print(f'Нам пришли GET-параметры: {request_params}')
 
-        # находим нужный контроллер
-        # отработка паттерна page controller
+        # Находим нужный контроллер
         if path in self.routes_lst:
             view = self.routes_lst[path]
         else:
-            view = PageNotFound404()
-        request = {}
-        # наполняем словарь request элементами
-        # этот словарь получат все контроллеры
-        # отработка паттерна front controller
-        for front in self.fronts_lst:
-            front(request)
-        # запуск контроллера с передачей объекта request
+            if '404_not_found' in self.routes_lst:
+                view = self.routes_lst['404_not_found']
+            else:
+                view = PageNotFound404()
+
+        # Запускаем контроллер
         code, body = view(request)
         start_response(code, [('Content-Type', 'text/html')])
         return [body.encode('utf-8')]
 
     @staticmethod
-    def decode_value(data):
+    def decode_value(data: dict) -> dict:
+        """Метод преобразует данные в удобочитаемы вид"""
         new_data = {}
         for k, v in data.items():
-            val = bytes(v.replace('%', '=').replace("+", " "), 'UTF-8')
+            val = bytes(v.replace('%', '=').replace('+', ' '), 'UTF-8')
             val_decode_str = decodestring(val).decode('UTF-8')
             new_data[k] = val_decode_str
         return new_data
-
-    @staticmethod
-    def get_message(message):
-        with codecs.open(f'{message["first_name"]}.txt', 'a', 'UTF-8') as message_file:
-            message_file.write(f'--------------{datetime.datetime.now()}--------------' + '\n')
-            message_file.write(f'Имя пользователя: {message["first_name"]}'+'\n')
-            message_file.write(f'Email: {message["email"]}'+'\n')
-            message_file.write(f'Тема сообщения: {message["message_title"]}'+'\n')
-            message_file.write(f'Текст обращения: {message["message_text"]}'+'\n')
-            message_file.write(f'------------------------------------------------------' + '\n')
-
-    @staticmethod
-    def get_message_json(message):
-        with codecs.open(f'{message["first_name"]}.json', 'w', 'UTF-8') as message_file:
-            message['data'] = str(datetime.datetime.now())
-            json.dump(message, message_file, ensure_ascii=False)

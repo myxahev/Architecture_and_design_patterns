@@ -1,24 +1,40 @@
-{% extends "base.html" %}
-{% block title %}
-Главная страница
+{% extends "base.html"%}
+
+{% block titile %}
+    {{content.title}}
 {% endblock %}
 {% block style %}
-	{% include "include/inc-style.html" %}
+{% include "inc-style.html" %}
 {% endblock %}
 {% block menu %}
-	{% include "include/inc-menu.html" %}
+	{% include "inc-menu.html" %}
 {% endblock %}
 {% block body %}
-	<div>
-		<a href="/create-category/">Создать новую категорию</a>
-	</div>
-	<div>
-		<h1>Список существующих категорий</h1>
-        {% for item in objects_list %}
-        <li>
-            {{item.name}} <span>Количество курсов: {{item.course_count()}}</span>
-			<a href="/courses-list/?id={{item.id}}">Показать курсы</a>
-        </li>
-        {% endfor %}
-	</div>
+<div class="content">
+    <div class="container">
+        <div class="index-content">
+            <div class="text_block">
+                <div class="title">
+                    Английский для IT-специалистов
+                </div>
+                <div class="divider"></div>
+                <div class="info">
+
+                    Geekbrains: "Английский для IT-специалистов".
+
+                </div>
+                <div class="divider"></div>
+                <div class="button">
+                    <a href="/courses/">Перейти к занятиям</a>
+                </div>
+            </div>
+            <div class="image_block">
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+	{% include "inc-footer.html" %}
 {% endblock %}

@@ -2,38 +2,38 @@ from copy import deepcopy
 from quopri import decodestring
 
 
-# абстрактный пользователь
+# Абстрактный пользователь
 class User:
     pass
 
 
-# преподаватель
+# Преподаватель
 class Teacher(User):
     pass
 
 
-# студент
+#  Студент
 class Student(User):
     pass
 
 
+#  Порождающий паттерн Абстрактная фабрика - фабрика пользователей
 class UserFactory:
     types = {
         'student': Student,
         'teacher': Teacher
     }
 
-    # порождающий паттерн Фабричный метод
+    # Порождающий паттерн Фабричный метод
     @classmethod
     def create(cls, type_):
         return cls.types[type_]()
 
 
-# порождающий паттерн Прототип
+# Порождающий паттерн Прототип - Курс
 class CoursePrototype:
-    # прототип курсов обучения
-
-    def clone(self):
+    # Прототип курсов обучения
+    def course_clone(self):
         return deepcopy(self)
 
 
@@ -45,30 +45,19 @@ class Course(CoursePrototype):
         self.category.courses.append(self)
 
 
-# интерактивный курс
+# Интерактивный курс
 class InteractiveCourse(Course):
     pass
 
 
-# курс в записи
+# Курс в записи
 class RecordCourse(Course):
     pass
 
 
-class CourseFactory:
-    types = {
-        'interactive': InteractiveCourse,
-        'record': RecordCourse
-    }
-
-    # порождающий паттерн Фабричный метод
-    @classmethod
-    def create(cls, type_, name, category):
-        return cls.types[type_](name, category)
-
-
-# категория
+# Категория
 class Category:
+    # реестр?
     auto_id = 0
 
     def __init__(self, name, category):
@@ -85,7 +74,20 @@ class Category:
         return result
 
 
-# основной интерфейс проекта
+# Порождающий паттерн Абстрактная фабрика - фабрика курсов
+class CourseFactory:
+    types = {
+        'interactive': InteractiveCourse,
+        'record': RecordCourse
+    }
+
+    # Порождающий паттерн Фабричный метод
+    @classmethod
+    def create(cls, type_, name, category):
+        return cls.types[type_](name, category)
+
+
+# Основной интерфейс проекта
 class Engine:
     def __init__(self):
         self.teachers = []
@@ -101,12 +103,12 @@ class Engine:
     def create_category(name, category=None):
         return Category(name, category)
 
-    def find_category_by_id(self, id):
+    def find_category_by_id(self, id_):
         for item in self.categories:
             print('item', item.id)
-            if item.id == id:
+            if item.id == id_:
                 return item
-        raise Exception(f'Нет категории с id = {id}')
+        raise Exception(f'Нет категории с id = {id_}')
 
     @staticmethod
     def create_course(type_, name, category):
@@ -119,13 +121,21 @@ class Engine:
         return None
 
     @staticmethod
-    def decode_value(val):
-        val_b = bytes(val.replace('%', '=').replace("+", " "), 'UTF-8')
+    def decode_value(val: str) -> str:
+        val_b = bytes(val.replace('%', '=').replace('+', " "), "UTF-8")
         val_decode_str = decodestring(val_b)
         return val_decode_str.decode('UTF-8')
 
+    @staticmethod
+    def decode_dict(data: dict) -> dict:
+        """функция преобразует данные в удобочитаемы вид"""
+        new_data = {}
+        for k, v in data.items():
+            new_data[k] = Engine.decode_value(v)
+        return new_data
 
-# порождающий паттерн Синглтон
+
+# Порождающий паттерн Синглтон
 class SingletonByName(type):
 
     def __init__(cls, name, bases, attrs, **kwargs):
