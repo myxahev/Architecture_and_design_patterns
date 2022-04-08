@@ -1,0 +1,23 @@
+{% extends "base.html"%}
+
+{% block titile %}
+    {{content.title}}
+{% endblock %}
+{% block style %}
+    {% include "inc-style.html" %}
+{% endblock %}
+{% block menu %}
+	{% include "inc-menu.html" %}
+{% endblock %}
+{% block body %}
+<div class="content">
+    <div class="container">
+        <div class="not-found-content">
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+	{% include "inc-footer.html" %}
+{% endblock %}
