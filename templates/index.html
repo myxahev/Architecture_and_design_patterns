@@ -1,0 +1,40 @@
+{% extends "base.html"%}
+
+{% block titile %}
+    {{content.title}}
+{% endblock %}
+{% block style %}
+{% include "inc-style.html" %}
+{% endblock %}
+{% block menu %}
+	{% include "inc-menu.html" %}
+{% endblock %}
+{% block body %}
+<div class="content">
+    <div class="container">
+        <div class="index-content">
+            <div class="text_block">
+                <div class="title">
+                    Английский для IT-специалистов
+                </div>
+                <div class="divider"></div>
+                <div class="info">
+
+                    Geekbrains: "Английский для IT-специалистов".
+
+                </div>
+                <div class="divider"></div>
+                <div class="button">
+                    <a href="/courses/">Перейти к занятиям</a>
+                </div>
+            </div>
+            <div class="image_block">
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+	{% include "inc-footer.html" %}
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html"%}
+
+{% block titile %}
+    {{content.title}}
+{% endblock %}
+{% block style %}
+{% include "inc-style.html" %}
+{% endblock %}
+{% block menu %}
+	{% include "inc-menu.html" %}
+{% endblock %}
+{% block body %}
+<div class="content">
+    <div class="container">
+        <div class="course-content">
+            <div class="title">
+                Курс № 1
+            </div>
+            <div class="sub-title">
+                <p>Задание № 1</p>
+                <p>Изучение новых слов. Нулевой уровень(Знакомство).</p>
+            </div>
+            <div class="lesson-body">
+                <div class="task" id="task">
+                    Изучаем слово - "able", перевод - "способный"
+                </div>
+                <div class="answer">
+                    <textarea name="answer" id="answer" cols="80" rows="5"
+                        placeholder="Введите слово на английском:"></textarea>
+                    <button class="confirm">подтвердить ввод</button>
+                </div>
+                <div class="progress" id="progress">
+                    <div class="count" id="count">Осталось 28 из 29</div>
+                    <div class="progress-bar" id="progress-bar">
+                        <div class="scale-div" id="scale-progress"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+	{% include "inc-footer.html" %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html"%}
+
+{% block titile %}
+    {{content.title}}
+{% endblock %}
+{% block style %}
+{% include "inc-style.html" %}
+{% endblock %}
+{% block menu %}
+	{% include "inc-menu.html" %}
+{% endblock %}
+{% block body %}
+<div class="content">
+    <div class="container">
+        <div class="courses-content">
+            {% for course_name in content.course_names %}
+                <div class="item-course">
+                    <a href="/courses/course/">{{ course_name }}</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+	{% include "inc-footer.html" %}
+{% endblock %}
