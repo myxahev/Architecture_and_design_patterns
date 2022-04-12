@@ -3,12 +3,15 @@
 {% block titile %}
     {{title}}
 {% endblock %}
+
 {% block style %}
-{% include "inc-style.html" %}
+    {% include "inc-style.html" %}
 {% endblock %}
+
 {% block menu %}
 {% include "inc-menu.html" %}
 {% endblock %}
+
 {% block body %}
 <div class="content">
     <div class="container">
@@ -27,7 +30,7 @@
             <li>
                 {{item.name}}
                 {% for course in item.courses %}
-                {{course.name}}
+                    {{course.name}}
                 {% endfor %}
             </li>
             {% endfor %}
@@ -36,6 +39,7 @@
     </div>
 </div>
 {% endblock %}
+
 {% block footer %}
-{% include "inc-footer.html" %}
+	{% include "inc-footer.html" %}
 {% endblock %}
